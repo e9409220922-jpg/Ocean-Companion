@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean Companion</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden; 
+            background: linear-gradient(to bottom, #061928 0%, #0a3a5c 50%, #166487 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 讓滑鼠在整個網頁上有指標效果，提示可以互動 */
+            cursor: crosshair; 
+        }
+        /* 無障礙高對比 UI 面板 */
+        #ui-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 25, 40, 0.85);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 12px;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            max-width: 320px;
+            pointer-events: none;
+        }
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.4em;
+            letter-spacing: 1px;
+            color: #4fc3f7;
+        }
+        p {
+            font-size: 1em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .fish-color { background: #ff8800; }
+        .trash-color { background: #8b8b8b; }
+        .water-color { background: #4fc3f7; }
+        #interaction-hint {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            color: #ffb74d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="ui-panel">
+        <h2>3D 生態互動沙盒</h2>
+        <p>模擬海洋洋流、生物棲息與人為汙染源的交互影響</p>
+        
+        <div class="legend-item">
+            <div class="color-box fish-color"></div>
+            <span>原生魚類</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box trash-color"></div>
+            <span>微塑膠與廢棄物 (汙染源)</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box water-color"></div>
+            <span>動態洋流粒子</span>
+        </div>
+        <div id="interaction-hint">
+            點擊畫面中的灰色汙染物即可將其清除，協助淨化海洋！
+        </div>
+    </div>
+
+    <canvas class="webgl"></canvas>
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
