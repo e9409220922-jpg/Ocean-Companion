@@ -10,7 +10,7 @@ st.set_page_config(page_title="Ocean Companion - 數據可視化",
                    layout="wide",
                    initial_sidebar_state="collapsed") # 強制收合
 
-st.title("🌊 伴海 Ocean Companion - 汙染數據可視化 PROMAX")
+st.title("🌊 伴海 Ocean Companion - 汙染數據可視化")
 
 #-----------------------------------------------------------
 
