@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 let canvas = document.querySelector('canvas.webgl'); 
 let scene = new THREE.Scene();
@@ -63,34 +64,36 @@ scene.add(waterParticles);
 
 // 3. 魚類模型
 const fishGroup = new THREE.Group();
-const fishGeo = new THREE.ConeGeometry(0.15, 0.6, 4);
-fishGeo.rotateZ(-Math.PI / 2); 
-const fishMat = new THREE.MeshStandardMaterial({ 
-    color: 0xff8800, 
-    roughness: 0.4,
-    metalness: 0.1
-});
 const fishes = [];
+const loader = new GLTFLoader();
 
-for(let i=0; i<40; i++) {
-    const fish = new THREE.Mesh(fishGeo, fishMat);
-    fish.position.set((Math.random() - 0.5) * 15, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 15);
-    
-    const direction = Math.random() > 0.5 ? 1 : -1;
-    if (direction === -1) {
-        fish.rotation.y = Math.PI;
+loader.load('./fish.glb', (gltf) => {
+    const baseFish = gltf.scene;
+    baseFish.scale.set(0.6, 0.6, 0.6); // 配合鏡頭距離的適中大小
+
+    for (let i = 0; i < 40; i++) {
+        const fish = baseFish.clone();
+        fish.position.set(
+            (Math.random() - 0.5) * 15,
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 15
+        );
+
+        const direction = Math.random() > 0.5 ? 1 : -1;
+        if (direction === -1) {
+            fish.rotation.y = Math.PI;
+        }
+
+        fish.userData = {
+            speed: (0.02 + Math.random() * 0.03) * direction,
+            offset: Math.random() * Math.PI * 2,
+            direction: direction
+        };
+        fishes.push(fish);
+        fishGroup.add(fish);
     }
-
-    fish.userData = {
-        speed: (0.02 + Math.random() * 0.03) * direction, 
-        offset: Math.random() * Math.PI * 2, 
-        swimPattern: Math.random(),
-        direction: direction
-    };
-    fishes.push(fish);
-    fishGroup.add(fish);
-}
-scene.add(fishGroup);
+    scene.add(fishGroup);
+})
 
 // 4. 汙染源與廢棄物模型
 const trashGroup = new THREE.Group();
